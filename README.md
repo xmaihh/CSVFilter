@@ -49,3 +49,27 @@ pip-sync -a requirements.txt
 ```
  pyinstaller -F --add-data "resources/*.png;resources/" --icon=.\resources\csv_filter.ico -w --debug all CSVFilter.py
 ```
+
+# 项目文件夹遵循以下结构:
+
+https://waterprogramming.wordpress.com/2023/01/18/structuring-a-python-project-recommendations-and-a-template-example/
+
+```
+example_python_project/ 
+├── sample_package/ 
+│   ├── subpackage/ 
+│   │   ├── __init__.py 
+│   │   └── subpackage_module.py 
+│   ├── __init__.py 
+│   ├── helpers.py 
+│   └── module.py 
+├── docs/ 
+│   └── documentation.md 
+├── tests/ 
+│   ├── __init__.py 
+│   └── basic_test.py 
+├── main.py 
+├── README.md 
+├── requirements.txt 
+└── LICENSE
+```
