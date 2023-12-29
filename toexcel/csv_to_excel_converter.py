@@ -1,9 +1,11 @@
 import os
 import chardet
 from openpyxl.styles import Font, Alignment
+from openpyxl.utils import get_column_letter
 import pandas as pd
 import openpyxl
 from ..helpers import const
+import re
 
 """
 __init__(self, csv_filepath):初始化方法,接收CSV文件的路径作为参数,并初始化其他实例变量。
@@ -59,31 +61,32 @@ class CsvToExcelConverter:
         # 可以设置样式、添加图表、调整列宽等
 
         # 设置标题行的字体和对齐方式
-        # title_font = Font(bold=True)
-        # title_alignment = Alignment(horizontal="center", vertical="center")
-        # for cell in worksheet[1]:
-        #     cell.font = title_font
-        #     cell.alignment = title_alignment
+        title_font = Font(bold=True)
+        title_alignment = Alignment(horizontal="center", vertical="center")
+        for cell in worksheet[1]:
+            cell.font = title_font
+            cell.alignment = title_alignment
 
         # 设置数据行的对齐方式
-        # data_alignment = Alignment(horizontal="left", vertical="center")
-        # for row in worksheet.iter_rows(min_row=2):
-        #     for cell in row:
-        #         cell.alignment = data_alignment
+        data_alignment = Alignment(horizontal="left", vertical="center")
+        for row in worksheet.iter_rows(min_row=2):
+            for cell in row:
+                cell.alignment = data_alignment
 
         # 自动调整列宽
-        for column in worksheet.columns:
-            max_length = 0
-            # 获取列名
-            for cell in column:
-                try: 
-                    if len(str(cell.value)) > max_length:
-                        max_length = len(str(cell.value))
-                except TypeError: # 避免空单元格引发TypeError
-                    pass
-        adjusted_width = (max_length + 4) * 1.2 # 乘以一个调整系数，可以根据实际情况调整
-        column_letter = column[0].column_letter # 获取列的字母标识
-        worksheet.column_dimensions[column_letter].width = adjusted_width
+        dims = {} # 设置一个字典用于保存列宽数据
+        # 遍历表格数据，获取自适应列宽数据
+        for row in worksheet.rows:
+            for cell in row:
+                if cell.value:
+                    # 遍历整个表格，把该列所有的单元格文本进行长度对比，找出最长的单元格
+                    # 在对比单元格文本时需要将中文字符识别为1.7个长度，英文字符识别为1个，这里只需要将文本长度直接加上中文字符数量即可
+                    # re.findall('([\u4e00-\u9fa5])', cell.value)能够识别大部分中文字符
+                    cell_len = 0.7*len(re.findall('([\u4e00-\u9fa5])', str(cell.value))) + len(str(cell.value))
+                    dims[cell.column] = max((dims.get(cell.column, 0), cell_len)) 
+        for col,value in dims.items():
+            # 设置列宽，get_column_letter用于获取数字列号对应的字母列号，最后值+2是用来调整最终效果的
+            worksheet.column_dimensions[get_column_letter(col)].width = value + 2
 
     def convert_csv_to_excel(self):
         # 将 CSV 文件转换为 Excel 文件
