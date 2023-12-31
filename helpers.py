@@ -16,3 +16,5 @@ class _const:
 const = _const()
 const.EXCEL_FILE_PREFIX = "CSVFilter_"
 const.EXCEL_FILE_SUFFIX = ".xlsx"
+const.EXCEL_FILE_PREFIX_UPGRADE_BOX = "CSVFilter_UpgradeBox_"
+const.EXCEL_FILE_PREFIX_IOT_CORE = "CSVFilter_IotCore_"
