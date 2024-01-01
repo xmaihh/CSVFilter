@@ -44,6 +44,7 @@ def open_file():
     if filepath:
         OpenFilePathLabel.config(text=filepath)
 
+
 def filter_and_display():
     filepath = OpenFilePathLabel.cget("text")
     df = pd.read_csv(filepath)
