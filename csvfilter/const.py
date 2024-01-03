@@ -12,7 +12,6 @@ class _const:
             raise self.ConstCaseError('const name "%s" is not all uppercase' % name)
         self.__dict__[name] = value
 
-
 const = _const()
 const.EXCEL_FILE_PREFIX = "CSVFilter_"
 const.EXCEL_FILE_SUFFIX = ".xlsx"

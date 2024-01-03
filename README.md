@@ -50,6 +50,13 @@ pip-sync -a requirements.txt
  pyinstaller -F --add-data "resources/*.png;resources/" --icon=.\resources\csv_filter.ico -w --debug all CSVFilter.py
 ```
 
+最终打包
+
+```
+pyinstaller -F "Wind Chill Index calculator.py" -w --icon=calculator.ico
+#ICO from https://icon-icons.com/download/53152/ICO/128/
+```
+
 # 项目文件夹遵循以下结构:
 
 https://waterprogramming.wordpress.com/2023/01/18/structuring-a-python-project-recommendations-and-a-template-example/
@@ -62,7 +69,9 @@ example_python_project/
 │   │   └── subpackage_module.py 
 │   ├── __init__.py 
 │   ├── helpers.py 
+|   ├── const.py 
 │   └── module.py 
+|   
 ├── docs/ 
 │   └── documentation.md 
 ├── tests/ 
@@ -72,4 +81,14 @@ example_python_project/
 ├── README.md 
 ├── requirements.txt 
 └── LICENSE
+```
+
+# Instructions
+
+## Usage
+
+The program can then be executed from a command line using the `main.py` executable:
+
+```
+→ D:\<your-local-directory>\CSVFilter [master]› CSVFilterpython main.py
 ```
