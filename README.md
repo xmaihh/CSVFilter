@@ -47,7 +47,7 @@ pip-sync -a requirements.txt
 # 打包成.exe
 
 ```
- pyinstaller -F --add-data "resources/*.png;resources/" --icon=.\resources\csv_filter.ico -w --debug all CSVFilter.py
+ pyinstaller -F --add-data "resources/*;resources/" --icon=.\resources\csv_filter.ico -w --debug all --name CSVFilter main.py
 ```
 
 最终打包
