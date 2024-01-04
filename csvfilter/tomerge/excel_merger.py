@@ -1,9 +1,10 @@
 import os
 import pandas as pd
-from ..helpers import const
+from ..const import const
+
 
 class ExcelMerger:
-    def __init__(self,csv_filepath):
+    def __init__(self, csv_filepath):
         self.csv_filepath = csv_filepath
         self.excel_files = []
         self.sheet_names = []
@@ -15,9 +16,7 @@ class ExcelMerger:
         # 获取 CSV 文件的文件名（不包含扩展名）
         csv_filename = os.path.splitext(os.path.basename(self.csv_filepath))[0]
         # 构建 Excel 文件的文件名
-        excel_filename = (
-            f"{csv_filename}{const.EXCEL_FILE_SUFFIX}"
-        )
+        excel_filename = f"{csv_filename}{const.EXCEL_FILE_SUFFIX}"
         # 拼接 Excel 文件的完整路径
         excel_filepath = os.path.join(csv_dir, excel_filename)
         print(excel_filepath)
@@ -43,7 +42,7 @@ class ExcelMerger:
             raise ValueError("No excel files added.")
 
         # 创建新的excel文件
-        writer = pd.ExcelWriter(self.merged_file, engine='openpyxl')
+        writer = pd.ExcelWriter(self.merged_file, engine="openpyxl")
 
         # 遍历所有要合并的excel文件
         for i in range(len(self.excel_files)):
@@ -52,11 +51,13 @@ class ExcelMerger:
 
             # 读取当前excel文件中的数据到DataFrame中
             df = pd.read_excel(file_path)
+
             def deal_str(data):
-                data = str(data)+'\t'
+                data = str(data) + "\t"
                 return data
+
             # Pandas 较长数字数据导出csv文件后变成科学计数法（带E）的解决办法
-            df['唯一标识imei'] = df['唯一标识imei'].map(deal_str)
+            df["唯一标识imei"] = df["唯一标识imei"].map(deal_str)
             # 将DataFrame写入新文件中的指定sheet
             df.to_excel(writer, sheet_name=sheet_name, index=False)
 
