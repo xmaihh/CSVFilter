@@ -37,7 +37,7 @@ def get_git_version():
     commit_count = _get_git_commit_count()
     commit_hash = _get_git_commit_hash()
     if commit_count >= 0 and commit_hash != "Failed to get Git commit hash":
-        return f"V{commit_count}.{commit_hash}"
+        return f"V{commit_count}.g{commit_hash}"
     else:
         return "Failed to get Git commit count"
 

@@ -1,7 +1,7 @@
 import os
 import chardet
 import pandas as pd
-from ..helpers import const
+from csvfilter.const import const
 
 """
 __init__(self, csv_filepath):初始化方法,接收CSV文件的路径作为参数,并初始化其他实例变量。

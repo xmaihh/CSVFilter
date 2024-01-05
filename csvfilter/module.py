@@ -1,5 +1,5 @@
 # Import the helpers from the current folder "."
-from . import helpers
+from . import csv_filter
 
 
 def main_module_function():
@@ -33,7 +33,5 @@ def main_module_function():
     +------------------------------------------------+
 
     """
-    solved = False
-    input_file_csv = "D:/Downloads/93ff7950b5304878826fbed7190dd554.csv"  # 输入文件路径
-    helpers.helper_function(input_file_csv)
-    return solved
+    app = csv_filter.CSVFilterApp()
+    app.run()
