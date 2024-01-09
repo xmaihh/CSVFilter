@@ -1,4 +1,5 @@
 import subprocess
+import configparser
 
 
 def _get_git_commit_count():
@@ -45,3 +46,20 @@ def get_git_version():
 if __name__ == "__main__":
     git_version = get_git_version()
     print("Current Git version:", git_version)
+    # Create a ConfigParser object
+    config = configparser.ConfigParser()
+
+    # Set the version number
+    version = "1.0.0"
+
+    if git_version != "Failed to get Git commit count":
+        # Write the version number to the config file
+        config['DEFAULT'] = {'Version': git_version}
+    else:
+        config['DEFAULT'] = {'Version': version}
+
+    # Write the config to the file
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+
+    print("Config file has been updated!")

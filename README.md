@@ -35,7 +35,7 @@ pyinstaller main.py
 Your bundled application should now be available in the dist folder.
 
 ```shell
-pyinstaller -F --add-data "resources/*;resources/" --icon=.\resources\csv_filter.ico -w --name CSVFilter main.py
+pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --icon=.\resources\csv_filter.ico -w --clean --name CSVFilter main.py
 ```
 
 

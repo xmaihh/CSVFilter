@@ -6,6 +6,7 @@ import sys
 import threading
 import logging
 from . import logger
+import configparser
 
 
 class TextHandler(logging.Handler):
@@ -25,7 +26,6 @@ class CSVFilterApp:
     def __init__(self):
         my_logger = logger.MyLogger("csvfilter", "csvfilter.log")
         self.logger = my_logger.get_logger()
-        self.icon_path = "resources/csv_filter.ico"
         self.root = self.createWindow()
         self.createWidget()
         text_handler = TextHandler(self.logpreview_text)
@@ -35,17 +35,22 @@ class CSVFilterApp:
         self.input_file = ""
         self.output_file = ""
 
-    def _get_resource_path(self):
+    def _get_resource_path(self, path):
         if hasattr(sys, "_MEIPASS"):
-            return os.path.join(sys._MEIPASS, self.icon_path)
-        return os.path.join(os.path.abspath("."), self.icon_path)
+            return os.path.join(sys._MEIPASS, path)
+        return os.path.join(os.path.abspath("."), path)
 
     def createWindow(self):
         root = tk.Tk()
         root.title("CSV到XLSX转换器")
-        root.iconbitmap(self._get_resource_path())
+        root.iconbitmap(self._get_resource_path("resources/csv_filter.ico"))
         # 添加软件版本号标签
-        version_label = tk.Label(root, text=f"版本号：{helpers.get_git_version()}")
+        config = configparser.ConfigParser()
+        config.read(self._get_resource_path("config.ini"))
+        print(self._get_resource_path("config.ini"))
+        version = config.get("DEFAULT", "version")
+        print(version)
+        version_label = tk.Label(root, text=f"版本号：{version}")
         version_label.pack(side="bottom", pady=10)
         return root
 
