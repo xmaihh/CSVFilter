@@ -43,26 +43,39 @@ jobs:
           # echo "::set-output name=version::$version"
           # GitHub Actions: Deprecating save-state and set-output commands
           # use the following command to replace the old `echo "::set-output name=version::$version"` command
-          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "::set-output name=version::$version"
 
       - name: Build executable and package release
-        env:
-          RELEASE_VERSION: ${{ steps.read_config.outputs.version }}
         run: |
-          echo "Using version: $RELEASE_VERSION"
-          pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --icon=.\resources\csv_filter.ico -w --clean --name ${{ env.OUTPUT_FILE_PREFIX }}.$RELEASE_VERSION main.py
+          echo "Using version: ${{ steps.read_config.outputs.version }}"
+          pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --icon=.\resources\csv_filter.ico -w --clean --name ${{ env.OUTPUT_FILE_PREFIX }}.${{ steps.read_config.outputs.version }} main.py
 
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ steps.read_config.outputs.version }}
         with:
-          tag_name: $
-          release_name: Release ${{ steps.read_config.outputs.version }}
+          tag_name: ${{ steps.read_config.outputs.version }}
+          release_name: ${{ steps.read_config.outputs.version }}
           draft: false
           prerelease: false
+
+      - name: Delete old releases
+        id: delete_old_releases
+        run: |
+          # Get the current release tag
+          current_release=$(git describe --tags --exact-match)
+
+          # Get a list of all releases
+          releases=$(gh release list --json name)
+
+          # Iterate over the releases and delete any that are not the current release
+          for release in $releases; do
+            if [[ $release != "$current_release" ]]; then
+              gh release delete "$release"
+            fi
+          done
 
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
