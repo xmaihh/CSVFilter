@@ -63,19 +63,20 @@ jobs:
 
       - name: Delete old releases
         id: delete_old_releases
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get the current release tag
-          current_release=$(git describe --tags --exact-match)
-
+          $current_release = git describe --tags --exact-match
           # Get a list of all releases
-          releases=$(gh release list --json name)
-
+          $releases = gh release list --json name,url
           # Iterate over the releases and delete any that are not the current release
-          for release in $releases; do
-            if [[ $release != "$current_release" ]]; then
-              gh release delete "$release"
-            fi
-          done
+          foreach ($release in $releases) {
+            if ($release.name -ne $current_release) {
+              echo "gh release delete: $($release.name)"
+              gh release delete $release.name
+            }
+          }
 
       - name: Upload release asset
         uses: actions/upload-release-asset@v1
