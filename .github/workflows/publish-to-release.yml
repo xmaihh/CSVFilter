@@ -39,7 +39,7 @@ jobs:
       - name: Read config file
         id: read_config
         run: |
-          version=$(python -c "import configparser;config = configparser.ConfigParser();config.read('config.ini');print(config.get('DEFAULT', 'version'))")
+          $version = $(python -c "import configparser;config = configparser.ConfigParser();config.read('config.ini');print(config.get('DEFAULT', 'version'))")
           echo "::set-output name=version::$version"
 
       - name: Create release
