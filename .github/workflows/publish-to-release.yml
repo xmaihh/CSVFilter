@@ -69,7 +69,7 @@ jobs:
           # Get the current release tag
           $current_release = git describe --tags --exact-match
           # Get a list of all releases
-          $releases = gh release list --json name,url
+          $releases = gh release list --exclude-drafts --exclude-pre-releases
           # Iterate over the releases and delete any that are not the current release
           foreach ($release in $releases) {
             if ($release.name -ne $current_release) {
