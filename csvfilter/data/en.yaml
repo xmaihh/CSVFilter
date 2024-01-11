@@ -1,0 +1,9 @@
+title: Interactive Terminal
+ques-name: "Enter your name:"
+ques-age: "Enter your age:"
+ans-name: Hello, $name! Welcome to Phrase
+ans-age:
+  one: You are $count year old
+  other: You are $count years old
+ques-dob: "Enter your date of birth (YYYY-MM-DD):"
+ans-dob: You were born on $dob

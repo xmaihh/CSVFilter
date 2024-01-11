@@ -1,6 +1,10 @@
 import sys
+import os
 
-sys.path.append("..")
+sys.path.append("../csvfilter")
+current_path = os.getcwd()
+
+print("Current path:", current_path)
 
 import csvfilter
 import unittest
