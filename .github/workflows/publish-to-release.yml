@@ -1,4 +1,5 @@
 # This workflow will upload a Python Package using PyInstaller when a release is published
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
 
 name: publish-to-release
 
@@ -6,16 +7,19 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
     env:
-      OUTPUT_FILE_PREFIX : CSVFilter.Setup
+      OUTPUT_FILE_PREFIX: CSVFilter.Setup
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v2
@@ -32,15 +36,19 @@ jobs:
         run: |
           python ./csvfilter/version.py
 
-      - name: Build executable and package release
-        run: |
-          pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --icon=.\resources\csv_filter.ico -w --clean --name ${{ env.OUTPUT_FILE_PREFIX }}.${{ steps.read_config.outputs.version }} main.py
-
       - name: Read config file
         id: read_config
         run: |
           $version = $(python -c "import configparser;config = configparser.ConfigParser();config.read('config.ini');print(config.get('DEFAULT', 'version'))")
-          echo "::set-output name=version::$version"
+          # echo "::set-output name=version::$version"
+          # GitHub Actions: Deprecating save-state and set-output commands
+          # use the following command to replace the old `echo "::set-output name=version::$version"` command
+          echo version=$version >> $GITHUB_OUTPUT
+
+      - name: Build executable and package release
+        run: |
+          echo Using version: ${{ steps.read_config.outputs.version }}
+          pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --icon=.\resources\csv_filter.ico -w --clean --name ${{ env.OUTPUT_FILE_PREFIX }}.${{ steps.read_config.outputs.version }} main.py
 
       - name: Create release
         id: create_release

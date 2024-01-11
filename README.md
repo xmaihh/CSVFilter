@@ -1,5 +1,7 @@
 # Quickstart
 
+[![publish-to-release](https://github.com/xmaihh/CSVFilter/actions/workflows/publish-to-release.yml/badge.svg?branch=main)](https://github.com/xmaihh/CSVFilter/actions/workflows/publish-to-release.yml)
+
 > ⚠️ CSVFilter works with **Python 3.7+**. To check your Python version, run [`python --version`](https://docs.python.org/3/using/cmdline.html#cmdoption-version).
 >
 > If you have both Python 2 and Python 3 installed, you may need to use `python3` instead of `python`. This is becoming less common as [Python 2 is sunsetting](https://www.python.org/doc/sunset-python-2/).
