@@ -69,12 +69,12 @@ jobs:
           # Get the current release tag
           $current_release = git describe --tags --exact-match
           # Get a list of all releases
-          $releases = gh release list --exclude-drafts --exclude-pre-releases
+          $releases = git tag -l
           # Iterate over the releases and delete any that are not the current release
           foreach ($release in $releases) {
-            if ($release.name -ne $current_release) {
-              echo "gh release delete: $($release.name)"
-              gh release delete $release.name
+            if ($release -ne $current_release) {
+              echo "gh release delete: $($release)"
+              gh release delete $release --cleanup-tag -y
             }
           }
 
