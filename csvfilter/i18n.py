@@ -11,8 +11,10 @@ supported_format = ["json", "yaml"]
 
 
 class Translator:
-    def __init__(self, translations_folder, file_format="json", default_locale="de"):
+    def __init__(self, translations_folder, file_format="json", default_locale="en"):
         # initialization
+        
+
         self.data = {}
         self.locale = default_locale
         self.plural_rule = PluralRule({"one": "n is 1"})

@@ -7,11 +7,46 @@ current_path = os.getcwd()
 print("Current path:", current_path)
 
 import csvfilter
+import locale
+
+# ````de.json```
+
+# {
+#   "title": "Dialogstation",
+#   "ques-name": "Geben Sie Ihren Namen ein:",
+#   "ques-age": "Geben Sie Ihr Alter ein:",
+#   "ans-name": "Hallo, $name! Willkommen bei Phrase",
+#   "ans-age": {
+#     "one": "Du bist $count Jahr alt",
+#     "other": "Du bist $count Jahre alt"
+#   },
+#   "ques-dob": "Geben Sie Ihr Geburtsdatum ein (JJJJ-MM-TT):",
+#   "ans-dob": "Sie wurden am $dob geboren"
+# }
+
+# ````de.yaml```
+
+# title: Dialogstation
+# ques-name: "Geben Sie Ihren Namen ein:"
+# ques-age: "Geben Sie Ihr Alter ein:"
+# ans-name: Hallo, $name! Willkommen bei Phrase
+# ans-age:
+#   one: Du bist $count Jahr alt
+#   other: Du bist $count Jahre alt
+# ques-dob: "Geben Sie Ihr Geburtsdatum ein (JJJJ-MM-TT):"
+# ans-dob: Sie wurden am $dob geboren
 
 
 if __name__ == "__main__":
     # instantiate a new Translator class with the path to the data
     translator = csvfilter.i18n.Translator("csvfilter/data/")
+    current_locale, encoding = locale.getlocale()
+    lower_locale = current_locale.lower()
+    print("Current system language:", current_locale)
+    if "zh" in lower_locale or "chinese" in lower_locale or "china" in lower_locale:
+        print("Current system language is Chinese")
+    else:
+        print("Current system language is not Chinese")
 
     name = "John Doe"
     print(translator.translate("ans-name", name=name))

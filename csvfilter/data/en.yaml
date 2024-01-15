@@ -1,9 +1,11 @@
-title: Interactive Terminal
-ques-name: "Enter your name:"
-ques-age: "Enter your age:"
-ans-name: Hello, $name! Welcome to Phrase
-ans-age:
-  one: You are $count year old
-  other: You are $count years old
-ques-dob: "Enter your date of birth (YYYY-MM-DD):"
-ans-dob: You were born on $dob
+title: "CSV2XLSX Converter",
+label_input_path: "Input Path: ",
+label_output_path: "Output Path: ",
+btn_browse: "Browse...",
+btn_start_convert: "Start Convert",
+version: "Version: ",
+log_valid_csv_file: "Something went wrong, $input_file is not a valid CSV file",
+btn_converting: "Converting...",
+log_start_converting: "Start converting file: $input_file",
+log_convert_completed: "File conversion completed! $input_file --> $output_file"
+

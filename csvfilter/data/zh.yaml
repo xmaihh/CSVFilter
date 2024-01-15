@@ -1,0 +1,10 @@
+title: CSV2XLSX Converter
+label_input_path: "输入路径：",
+label_output_path: "输出路径：",
+btn_browse: "浏览...",
+btn_start_convert: "开始转换",
+version: "版本号：",
+log_valid_csv_file: "出错了，$input_file不是有效的CSV文件",
+btn_converting: "转换中...",
+log_start_converting: "开始转换文件：$input_file",
+log_convert_completed: "文件转换完成！ $input_file --> $output_file"

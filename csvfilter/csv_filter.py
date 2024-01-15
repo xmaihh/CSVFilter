@@ -42,7 +42,7 @@ class CSVFilterApp:
 
     def createWindow(self):
         root = tk.Tk()
-        root.title("CSV到XLSX转换器")
+        root.title("CSV2XLSX Converter")
         root.iconbitmap(self._get_resource_path("resources/csv_filter.ico"))
         # 添加软件版本号标签
         config = configparser.ConfigParser()
