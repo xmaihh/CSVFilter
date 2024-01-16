@@ -24,10 +24,20 @@ def delete_file(file_path):
         raise ValueError(f"File '{file_path}' does not exist.")
 
 
-def helper_function(input_csv_file):
+def helper_function(
+    input_csv_file,
+    filter_imeis=None,
+    filter_imei_include=False,
+    filter_macs=None,
+    filter_mac_include=False,
+):
     # 数据前处理
     preprocess = create_csv_preprocess(input_csv_file)
-    preprocess.hidden_columns = ["预留Var7","预留Var6","预留Var5"]
+    preprocess.filter_imeis=filter_imeis
+    preprocess.filter_imei_include=filter_imei_include
+    preprocess.filter_macs=filter_macs
+    preprocess.filter_mac_include=filter_mac_include
+    preprocess.hidden_columns = ["预留Var7", "预留Var6", "预留Var5"]
     preprocess.save_to_csv()
 
     # 筛选iot板信息
@@ -73,7 +83,7 @@ def helper_function(input_csv_file):
     delete_file(excel_row_data)
     delete_file(excel_iot_data)
     delete_file(excel_box_data)
-    
+
     return mergedExcel
 
 

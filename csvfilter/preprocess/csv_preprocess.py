@@ -9,7 +9,11 @@ class DataPreprocessor:
         self.input_path = input_path
         self.df = self._convert_csv_to_dataframe()
         self.output_path = self._get_output_filepath()
-        self.hidden_columns=None
+        self.hidden_columns = None
+        self.filter_imeis = None
+        self.filter_imei_include = False
+        self.filter_macs = None
+        self.filter_mac_include = False
 
     def _get_output_filepath(self):
         # 获取 CSV 文件所在的目录路径
@@ -45,7 +49,43 @@ class DataPreprocessor:
         except pd.errors.ParserError:
             raise Exception("Error parsing CSV file.")
 
+    def filter_dataframe(self):
+        filtered_df = self.df
+        # 筛选指定的数据
+        print(f"IMEI Filter: {self.filter_imei_include} = {self.filter_imeis}")
+        print(f"MAC Filter: {self.filter_mac_include} = {self.filter_macs}")
+        if (
+            self.filter_imeis is not None
+            and isinstance(self.filter_imeis, list)
+            and len(self.filter_imeis) != 0
+        ):
+            if self.filter_imei_include:
+                for specified_imei in self.filter_imeis:
+                    filtered_df = filtered_df[filtered_df["唯一标识imei"] == specified_imei]
+            else:
+                for specified_imei in self.filter_imeis:
+                    filtered_df = filtered_df[filtered_df["唯一标识imei"] != specified_imei]
+        if (
+            self.filter_macs is not None
+            and isinstance(self.filter_macs, list)
+            and len(self.filter_macs) != 0
+        ):
+            if self.filter_mac_include:
+                for specified_mac in self.filter_macs:
+                    filtered_df = filtered_df[
+                        filtered_df["唯一标识imei"].str.contains(specified_mac)
+                    ]
+            else:
+                for specified_mac in self.filter_macs:
+                    filtered_df = filtered_df[
+                        ~filtered_df["唯一标识imei"].str.contains(specified_mac)
+                    ]
+        return filtered_df
+
     def preprocess(self, hidden_columns=None):
+        # 筛选
+        self.df = self.filter_dataframe()
+        # 改造
         version_dict = {}
         for index, row in self.df.iterrows():
             version_number = row["当前版本CurrentVersion"]
@@ -70,17 +110,28 @@ class DataPreprocessor:
         self.df["版本说明VersionNote"] = self.df["当前版本CurrentVersion"].map(version_dict)
 
         if hidden_columns:
-            self.df = self.df.drop(columns=hidden_columns)
+            missing_columns = [
+                col for col in hidden_columns if col not in self.df.columns
+            ]
+
+            if missing_columns:
+                print(f"以下列标签在 DataFrame 中不存在：{missing_columns}")
+            else:
+                self.df = self.df.drop(columns=hidden_columns)
 
         return self.df
-    
-    def set_hidden_columns(self,hidden_columns):
+
+    def set_hidden_columns(self, hidden_columns):
         self.hidden_columns = hidden_columns
 
     def save_to_csv(self):
         if self.hidden_columns:
-            self.preprocess(self.hidden_columns).to_csv(self.output_path, index=False, encoding="utf_8_sig")
+            self.preprocess(self.hidden_columns).to_csv(
+                self.output_path, index=False, encoding="utf_8_sig"
+            )
         else:
-            self.preprocess().to_csv(self.output_path, index=False,encoding="utf_8_sig")
+            self.preprocess().to_csv(
+                self.output_path, index=False, encoding="utf_8_sig"
+            )
 
         print("新CSV文件已生成！")
