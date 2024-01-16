@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from ..const import const
+from ..lib_base.constants import *
 
 
 class ExcelMerger:
@@ -16,7 +16,7 @@ class ExcelMerger:
         # 获取 CSV 文件的文件名（不包含扩展名）
         csv_filename = os.path.splitext(os.path.basename(self.csv_filepath))[0]
         # 构建 Excel 文件的文件名
-        excel_filename = f"{csv_filename}{const.EXCEL_FILE_SUFFIX}"
+        excel_filename = f"{csv_filename}{EXCEL_FILE_SUFFIX}"
         # 拼接 Excel 文件的完整路径
         excel_filepath = os.path.join(csv_dir, excel_filename)
         print(excel_filepath)
@@ -32,7 +32,7 @@ class ExcelMerger:
         self.excel_files.append(file_path)
         self.sheet_names.append(sheet_name)
 
-    def merge_files(self):
+    def merge(self):
         """
         将多个excel文件合并成一个，每个文件放在一个单独的sheet中
 

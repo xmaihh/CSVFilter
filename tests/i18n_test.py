@@ -6,7 +6,7 @@ current_path = os.getcwd()
 
 print("Current path:", current_path)
 
-import csvfilter
+import csv_toolbox
 import locale
 
 # ````de.json```
@@ -39,7 +39,7 @@ import locale
 
 if __name__ == "__main__":
     # instantiate a new Translator class with the path to the data
-    translator = csvfilter.i18n.Translator("csvfilter/data/")
+    translator = csv_toolbox.i18n.Translator("csvfilter/data/")
     current_locale, encoding = locale.getlocale()
     lower_locale = current_locale.lower()
     print("Current system language:", current_locale)
@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # Du bist 30 Jahre alt
 
     dob = "1992-01-01"
-    dob = csvfilter.i18n.parse_datetime(dob)
+    dob = csv_toolbox.i18n.parse_datetime(dob)
 
     print(translator.translate("ans-dob", dob=dob))
     # Sie wurden am January 01, 1992 geboren

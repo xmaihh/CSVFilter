@@ -1,7 +1,7 @@
 import os
 import chardet
 import pandas as pd
-from csvfilter.const import const
+from ..lib_base.constants import *
 
 """
 __init__(self, csv_filepath):初始化方法,接收CSV文件的路径作为参数,并初始化其他实例变量。
@@ -12,7 +12,7 @@ convert_csv_to_excel(self)：主要方法，用于将 CSV 文件转换为 Excel 
 """
 
 
-class CsvToExcelConverter:
+class CSVToExcel:
     def __init__(self, csv_filepath):
         self.csv_filepath = csv_filepath
         self.excel_filepath = self._get_excel_filepath()
@@ -25,7 +25,7 @@ class CsvToExcelConverter:
         csv_filename = os.path.splitext(os.path.basename(self.csv_filepath))[0]
         # 构建 Excel 文件的文件名
         excel_filename = (
-            f"{const.EXCEL_FILE_PREFIX}{csv_filename}{const.EXCEL_FILE_SUFFIX}"
+            f"{EXCEL_FILE_PREFIX}{csv_filename}{EXCEL_FILE_SUFFIX}"
         )
         # 拼接 Excel 文件的完整路径
         excel_filepath = os.path.join(csv_dir, excel_filename)
@@ -52,7 +52,7 @@ class CsvToExcelConverter:
         except pd.errors.ParserError:
             raise Exception("Error parsing CSV file.")
 
-    def convert_csv_to_excel(self):
+    def convert(self):
         # 将 CSV 文件转换为 Excel 文件
         # 创建 Excel 文件和工作表
         # 将 CSV 数据写入 Excel 文件

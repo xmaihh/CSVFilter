@@ -4,11 +4,11 @@ the rest of the work.
 """
 
 # Import the main package
-import csvfilter
+import csv_toolbox
 
 
 def run():
-    csvfilter.main_module_function()
+    csv_toolbox.main_module_function()
 
 
 # Run the function if this is the main file executed

@@ -3,7 +3,7 @@ import pandas as pd
 import chardet
 
 
-class EasillyFilterCSVFile:
+class CSVFilter:
     def __init__(self, input_file, output_file_prefix):
         self.input_file = input_file
         self.output_file_prefix = output_file_prefix
@@ -17,7 +17,7 @@ class EasillyFilterCSVFile:
         print(output_file_path)
         return output_file_path
 
-    def filter_by_condition(self, condition):
+    def filter(self, condition):
         # 检测文件编码
         with open(self.input_file, "rb") as file:
             result = chardet.detect(file.read())

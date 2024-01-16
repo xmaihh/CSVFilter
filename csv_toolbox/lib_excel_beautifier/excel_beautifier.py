@@ -4,11 +4,11 @@ from openpyxl.utils import get_column_letter
 import re
 
 
-class BeautifyExcel:
+class ExcelBeautifier:
     def __init__(self, excel_filepath):
         self.excel_filepath = excel_filepath
 
-    def _beautify_excel(self, worksheet):
+    def beautify(self, worksheet):
         # 对 Excel 文件进行美化操作
         # 可以设置样式、添加图表、调整列宽等
 
@@ -49,7 +49,7 @@ class BeautifyExcel:
         for worksheet_name in worksheet_names:
             worksheet = workbook[worksheet_name]
             # 美化Excel文件
-            self._beautify_excel(worksheet)
+            self.beautify(worksheet)
         try:
             workbook.save(self.excel_filepath)
             print(f"Beautify Excel. Saved to {self.excel_filepath}")

@@ -6,7 +6,7 @@ current_path = os.getcwd()
 
 print("Current path:", current_path)
 
-import csvfilter
+import csv_toolbox
 import unittest
 
 
@@ -15,7 +15,7 @@ class BasicTestSuite(unittest.TestCase):
     """Basic test cases."""
 
     def test_that_main_module_function_is_solved(self):
-        solved = csvfilter.main_module_function()
+        solved = csv_toolbox.main_module_function()
         self.assertTrue(solved)
 
 

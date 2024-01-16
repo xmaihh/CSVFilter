@@ -6,7 +6,7 @@ from . import helpers
 import sys
 import threading
 import logging
-from . import logger
+from .lib_log.logger import MyLogger
 import configparser
 
 
@@ -25,7 +25,7 @@ class TextHandler(logging.Handler):
 
 class CSVFilterApp:
     def __init__(self):
-        my_logger = logger.MyLogger("csvfilter", "csvfilter.log")
+        my_logger = MyLogger("csvfilter", "csvfilter.log")
         self.logger = my_logger.get_logger()
         self.root = self.createWindow()
         self.imei_filter_var = tk.StringVar(value="exclude")

@@ -1,10 +1,10 @@
 import pandas as pd
 import os
 import chardet
-from csvfilter.const import const
+from ..lib_base.constants import CSV_FILE_SUFFIX,CSV_PREPROCESS_PREFIX
 
 
-class DataPreprocessor:
+class DataPreprocess:
     def __init__(self, input_path):
         self.input_path = input_path
         self.df = self._convert_csv_to_dataframe()
@@ -22,7 +22,7 @@ class DataPreprocessor:
         input_filename = os.path.splitext(os.path.basename(self.input_path))[0]
         # 构建 Excel 文件的文件名
         output_filename = (
-            f"{const.CSV_PREPROCESS_PREFIX}{input_filename}{const.CSV_FILE_SUFFIX}"
+            f"{CSV_PREPROCESS_PREFIX}{input_filename}{CSV_FILE_SUFFIX}"
         )
         # 拼接 Excel 文件的完整路径
         output_path = os.path.join(input_dir, output_filename)

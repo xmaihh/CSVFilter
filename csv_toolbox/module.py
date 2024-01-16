@@ -1,5 +1,5 @@
 # Import the helpers from the current folder "."
-from . import csv_filter
+from .csv_toolbox import CSVFilterApp
 
 
 def main_module_function():
@@ -33,5 +33,5 @@ def main_module_function():
     +------------------------------------------------+
 
     """
-    app = csv_filter.CSVFilterApp()
+    app = CSVFilterApp()
     app.run()
