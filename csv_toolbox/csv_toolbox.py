@@ -2,11 +2,11 @@ import tkinter as tk
 import os
 from tkinter import filedialog
 from tkinter import ttk
-from . import helpers
+from csv_toolbox import helpers
 import sys
 import threading
 import logging
-from .lib_log.logger import MyLogger
+from csv_toolbox.lib_log.logger import MyLogger
 import configparser
 
 

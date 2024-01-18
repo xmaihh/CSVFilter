@@ -39,7 +39,7 @@ import locale
 
 if __name__ == "__main__":
     # instantiate a new Translator class with the path to the data
-    translator = csv_toolbox.i18n.Translator("csvfilter/data/")
+    translator = csv_toolbox.lib_i18n.i18n.Translator("csvfilter/data/")
     current_locale, encoding = locale.getlocale()
     lower_locale = current_locale.lower()
     print("Current system language:", current_locale)
