@@ -34,7 +34,7 @@ jobs:
 
       - name: Update configuration file
         run: |
-          python ./csvfilter/version.py
+          python scripts/version.py
 
       - name: Read config file
         id: read_config
