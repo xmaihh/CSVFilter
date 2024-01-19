@@ -34,7 +34,7 @@ jobs:
 
       - name: Update configuration file
         run: |
-          python scripts/version.py
+          python prebuild_scripts/version.py
 
       - name: Read config file
         id: read_config
