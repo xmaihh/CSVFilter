@@ -49,40 +49,19 @@ pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --
 
 ```
 ├── CSVFilter/
-    ├── tests/
-    │   ├── windchill.py
-    │   ├── basic_test.py
-    │   └── __init__.py
-    ├── resources/
-    │   ├── windchill.png
-    │   └── csv_filter.ico
-    ├── requirements.txt
-    ├── requirements.in
-    ├── main.py
-    ├── docs/
-    ├── csvfilter.log
-    ├── csvfilter/
-    │   ├── version.py
-    │   ├── tomerge/
-    │   │   ├── excel_merger.py
-    │   │   └── __init__.py
-    │   ├── tofilter/
-    │   │   ├── easily_filter_csv_file.py
-    │   │   └── __init__.py
-    │   ├── toexcel/
-    │   │   ├── csv_to_excel_converter.py
-    │   │   └── __init__.py
-    │   ├── tobeautify/
-    │   │   ├── beautify_excel.py
-    │   │   └── __init__.py
-    │   ├── preprocess/
-    │   │   ├── csv_preprocess.py
-    │   │   └── __init__.py
-    │   ├── module.py
-    │   ├── logger.py
-    │   ├── helpers.py
-    │   ├── csv_filter.py
-    │   ├── const.py
-    │   └── __init__.py
-    └── README.md
+    ├── csv_toolbox
+    │   ├── data
+    │   ├── lib_base
+    │   ├── lib_csv_filter
+    │   ├── lib_csv_to_excel
+    │   ├── lib_data_preprocess
+    │   ├── lib_excel_beautifier
+    │   ├── lib_excel_merge
+    │   ├── lib_i18n
+    │   ├── lib_log
+    │   └── lib_utils
+    ├── docs
+    ├── resources
+    ├── scripts
+    └── tests
 ```
