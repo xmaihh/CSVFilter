@@ -1,4 +1,5 @@
 import os
+import shutil
 
 
 def generate_unique_output_path(input_dir, output_filename, extension):
@@ -52,3 +53,22 @@ def rename_file(old_path, new_path, extension):
     )
     os.rename(old_path, new_path)
     return new_path
+
+
+def copy_file(source_file):
+    """
+    Copy a file locally and return the target file with a different name in the same directory.
+
+    :param source_file: The path of the source file.
+    :return: The path of the target file.
+    """
+    # Get the directory and filename of the source file
+    dir_name, file_name = os.path.split(source_file)
+
+    # Construct the path of the target file
+    target_file = os.path.join(dir_name, f"copy_{file_name}")
+
+    # Copy the file using the copy2 function from the shutil module
+    shutil.copy2(source_file, target_file)
+
+    return target_file

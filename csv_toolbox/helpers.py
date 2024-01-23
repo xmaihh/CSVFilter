@@ -1,9 +1,13 @@
-from csv_toolbox.lib_csv_filter.csv_filter import CSVFilter
+from csv_toolbox.lib_csv_filter.csv_filter import (
+    CSVFilter,
+    CONDITION_86,
+    CONDITION_NOT86,
+)
 from csv_toolbox.lib_csv_to_excel.csv_to_excel import CSVToExcel
 from csv_toolbox.lib_excel_merge.excel_merger import ExcelMerger
 from csv_toolbox.lib_excel_beautifier.excel_beautifier import ExcelBeautifier
 from csv_toolbox.lib_data_preprocess.data_preprocess import DataPreprocess
-from csv_toolbox.lib_utils.file import delete_file, rename_file
+from csv_toolbox.lib_utils.file import delete_file, rename_file, copy_file
 from csv_toolbox.lib_base.constants import (
     SHEET_NAME_ROW_DATA,
     SHEET_NAME_IOT_DATA,
@@ -28,14 +32,14 @@ def helper_function(
     preprocess.hidden_columns = ["预留Var7", "预留Var6", "预留Var5"]
     preprocess.preprocess()
     print(f"Step 1:::DataPreprocess output====={preprocess.save_to()}")
-
+    copy_preprocess = copy_file(preprocess.save_to())
     # 筛选iot板信息 <CSVFilter>
-    filter_iot = CSVFilter(preprocess.save_to())
-    filter_iot.filter(lambda df: filter_iot.condition_filter_by_imei_prefix(df))
+    filter_iot = CSVFilter(preprocess.save_to(), csv_filter_prefix="iot_")
+    filter_iot.filter(CONDITION_86)
     print(f"Step 2:::CSVFilter <iot> output====={filter_iot.save_to()}")
     # 筛选盒子信息 <CSVFilter>
-    filter_box = CSVFilter(preprocess.save_to())
-    filter_box.filter(lambda df: ~filter_box.condition_filter_by_imei_prefix(df))
+    filter_box = CSVFilter(copy_preprocess, csv_filter_prefix="box_")
+    filter_box.filter(CONDITION_NOT86)
     print(f"Step 3:::CSVFilter <box> output====={filter_box.save_to()}")
 
     # 转换成Excel <CSVToExcel>
@@ -69,6 +73,7 @@ def helper_function(
     print(f"Step 9:::output====={output_excel}")
     # 删除临时文件 <delete_file>
     delete_file(preprocess.save_to())
+    delete_file(copy_preprocess)
     delete_file(filter_iot.save_to())
     delete_file(filter_box.save_to())
     delete_file(row_coverter.save_to())
