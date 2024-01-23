@@ -1,5 +1,5 @@
 # Import the helpers from the current folder "."
-from csv_toolbox import CSVFilterApp
+from csv_toolbox.csv_toolbox import CSVFilterApp
 
 
 def main_module_function():
