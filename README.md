@@ -6,7 +6,12 @@
 >
 > If you have both Python 2 and Python 3 installed, you may need to use `python3` instead of `python`. This is becoming less common as [Python 2 is sunsetting](https://www.python.org/doc/sunset-python-2/).
 
-## Requirements
+# TL;DR
+
+1. [Creating virtual environments](./docs/1. Creating virtual environments.md)
+2. [Create a `requirements.txt` File](./docs/2. Create a requirements.txt File.md)
+
+# Requirements
 
 The [**requirements.txt**](./requirements.txt) is a simple text file which lists the dependencies, or necessary packages that are required to run the code.
 Install the required packages from `requirements.txt`
@@ -16,7 +21,7 @@ pip install -r requirements.txt
 ```
 
 
-## Usage
+# Usage
 
 The program can then be executed from a command line using the `main.py` executable:
 
@@ -24,7 +29,7 @@ The program can then be executed from a command line using the `main.py` executa
 → D:\<your-local-directory>\CSVFilter [main]› python main.py
 ```
 
-## Executables
+# Executables
 
 Make sure you have the `Requirements` installed, and then install PyInstaller from PyPI:
 
