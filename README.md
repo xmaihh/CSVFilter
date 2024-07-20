@@ -8,8 +8,8 @@
 
 # TL;DR
 
-1. [Creating virtual environments](./docs/1. Creating virtual environments.md)
-2. [Create a `requirements.txt` File](./docs/2. Create a requirements.txt File.md)
+1. [Creating virtual environments](./docs/1-Creating-virtual-environments.md)
+2. [Create a `requirements.txt` File](./docs/2-Create-a-requirements.txt-File.md)
 
 # Requirements
 
