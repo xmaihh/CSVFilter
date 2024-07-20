@@ -17,8 +17,14 @@ The [**requirements.txt**](./requirements.txt) is a simple text file which lists
 Install the required packages from `requirements.txt`
 
 ```shell
-pip install -r requirements.txt
+python -m pip install --upgrade pip
+pip install pip-tools
+pip-sync requirements.txt
 ```
+
+>The advantage of using `pip-sync` over `pip install -r requirements.txt` is that `pip-sync` will not only install the packages listed in the requirements file, but it will also remove any installed packages that are not listed in the file. This ensures your environment exactly matches the requirements, which can help prevent issues caused by unexpected dependencies.
+
+>This approach is particularly useful in development environments and CI/CD pipelines where you want to ensure consistency across different environments.
 
 
 # Usage
@@ -31,7 +37,7 @@ The program can then be executed from a command line using the `main.py` executa
 
 # Executables
 
-Make sure you have the `Requirements` installed, and then install PyInstaller from PyPI:
+Make sure you have the `Requirements` installed, and then:
 
 ```
 pip install -U pyinstaller
@@ -46,7 +52,7 @@ pyinstaller main.py
 Your bundled application should now be available in the dist folder.
 
 ```shell
-pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --icon=.\resources\csv_filter.ico -w --clean --name CSVFilter main.py
+pyinstaller --onefile --add-data "resources;resources" --add-data "config.ini;." --icon="resources/csv_filter.ico" --windowed --clean --name CSVFilter main.py
 ```
 
 
@@ -66,7 +72,7 @@ pyinstaller -F --add-data "resources/*;resources/" --add-data "config.ini;."  --
     │   ├── lib_log
     │   └── lib_utils
     ├── docs
+    ├── prebuild_scripts
     ├── resources
-    ├── scripts
     └── tests
 ```

@@ -18,3 +18,12 @@ pyyaml
 
 # requests
 requests
+
+# pyinstaller
+pyinstaller
+
+# pip-tools
+pip-tools
+
+# importlib_resources
+importlib_resources
