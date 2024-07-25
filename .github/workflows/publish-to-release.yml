@@ -17,12 +17,12 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -52,7 +52,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.read_config.outputs.version }}
+          tag_name: ${{ steps.read_config.outputs.version }}
           release_name: Release ${{ steps.read_config.outputs.version }}
           draft: false
           prerelease: false
@@ -62,11 +62,13 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $current_release = "v${{ steps.read_config.outputs.version }}"
-          $releases = gh release list --limit 1000 | ForEach-Object { $_.Split()[0] }
-          foreach ($release in $releases) {
+          $allReleases = gh release list --limit 1000 | ForEach-Object { $_.Split()[0] }
+          foreach ($release in $allReleases) {
             if ($release -ne $current_release) {
               echo "Deleting release: $release"
               gh release delete $release --cleanup-tag -y
+            }else {
+              echo "Skipping current release: $release"
             }
           }
 
