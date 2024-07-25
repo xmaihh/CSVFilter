@@ -62,11 +62,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           $current_release = "${{ steps.read_config.outputs.version }}"
-          $allReleases = gh release list --limit 1000 | ForEach-Object { $_.Split()[0] }
+          $allReleases = gh release list --limit 1000 | ForEach-Object { $_.Split()[1] }
           foreach ($release in $allReleases) {
             if ($release -ne $current_release) {
-              echo "Deleting release: $release"
-              gh release delete $release --cleanup-tag -y
+              try {
+                echo "Deleting release: $release"
+                gh release delete $release --cleanup-tag -y
+              } catch {
+                  Write-Error "Failed to delete release: $release"
+              }
             }else {
               echo "Skipping current release: $release"
             }
