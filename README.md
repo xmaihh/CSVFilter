@@ -1,5 +1,6 @@
 # Quickstart
 
+[![Release](https://img.shields.io/github/v/release/xmaihh/CSVFilter)](https://github.com/xmaihh/CSVFilter/releases)
 [![publish-to-release](https://github.com/xmaihh/CSVFilter/actions/workflows/publish-to-release.yml/badge.svg?branch=main)](https://github.com/xmaihh/CSVFilter/actions/workflows/publish-to-release.yml)
 
 > ⚠️ CSVFilter works with **Python 3.7+**. To check your Python version, run [`python --version`](https://docs.python.org/3/using/cmdline.html#cmdoption-version).
@@ -9,7 +10,7 @@
 # TL;DR
 
 1. [Creating virtual environments](./docs/1-Creating-virtual-environments.md)
-2. [Create a `requirements.txt` File](./docs/2-Create-a-requirements.txt-File.md)
+2. [Create a requirements.txt File](./docs/2-Create-a-requirements.txt-File.md)
 
 # Requirements
 
