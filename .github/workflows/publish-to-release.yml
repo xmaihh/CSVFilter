@@ -61,7 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          $current_release = "v${{ steps.read_config.outputs.version }}"
+          $current_release = "${{ steps.read_config.outputs.version }}"
           $allReleases = gh release list --limit 1000 | ForEach-Object { $_.Split()[0] }
           foreach ($release in $allReleases) {
             if ($release -ne $current_release) {

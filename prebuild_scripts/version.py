@@ -40,7 +40,7 @@ def get_git_version():
     if commit_count >= 0 and commit_hash != "Failed to get Git commit hash":
         return f"{commit_count}.g{commit_hash}"
     else:
-        return "1.0.0"
+        return "Failed to get Git commit count"
 
 
 if __name__ == "__main__":
