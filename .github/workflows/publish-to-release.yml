@@ -69,7 +69,7 @@ jobs:
                       Write-Host "Attempting to delete release: $release"
                       $output = gh release delete $release --cleanup-tag -y 2>&1 | Out-String
                       if ($LASTEXITCODE -ne 0) {
-                          Write-Error "Command failed with exit code $LASTEXITCODE: $output"
+                          Write-Error "Command failed with exit code $($LASTEXITCODE): $output"
                           continue
                       }
                   } catch {
