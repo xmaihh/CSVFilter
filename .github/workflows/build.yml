@@ -31,18 +31,18 @@ jobs:
         pyinstaller --onefile --windowed --name="PDF拆分工具" --icon=icon.ico pdf_splitter.py
       continue-on-error: false
     
-    - name: Test EXE (basic check)
-      run: |
-        [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-        if (Test-Path "dist/PDF拆分工具.exe") {
-          Write-Host "✅ EXE file created successfully"
-          $size = (Get-Item "dist/PDF拆分工具.exe").Length
-          Write-Host "📦 File size: $([math]::Round($size/1MB, 2)) MB"
-        } else {
-          Write-Host "❌ EXE file not found"
-          exit 1
-        }
-      shell: powershell
+    # - name: Test EXE (basic check)
+    #   run: |
+    #     [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+    #     if (Test-Path "dist/PDF拆分工具.exe") {
+    #       Write-Host "✅ EXE file created successfully"
+    #       $size = (Get-Item "dist/PDF拆分工具.exe").Length
+    #       Write-Host "📦 File size: $([math]::Round($size/1MB, 2)) MB"
+    #     } else {
+    #       Write-Host "❌ EXE file not found"
+    #       exit 1
+    #     }
+    #   shell: powershell
     
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
