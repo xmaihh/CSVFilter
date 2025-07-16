@@ -1,0 +1,170 @@
+name: Build PDF Splitter EXE
+
+on:
+  push:
+    branches: [ feature/pdf-splitter ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ feature/pdf-splitter ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyPDF2 pyinstaller
+    
+    - name: Build EXE
+      run: |
+        pyinstaller --onefile --windowed --name="PDF拆分工具" --icon=icon.ico pdf_splitter.py
+      continue-on-error: false
+    
+    - name: Test EXE (basic check)
+      run: |
+        if (Test-Path "dist/PDF拆分工具.exe") {
+          Write-Host "✅ EXE file created successfully"
+          $size = (Get-Item "dist/PDF拆分工具.exe").Length
+          Write-Host "📦 File size: $([math]::Round($size/1MB, 2)) MB"
+        } else {
+          Write-Host "❌ EXE file not found"
+          exit 1
+        }
+      shell: powershell
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: PDF拆分工具-Windows
+        path: dist/PDF拆分工具.exe
+        retention-days: 30
+    
+    - name: Create Release (on tag)
+      if: startsWith(github.ref, 'refs/tags/')
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/PDF拆分工具.exe
+        name: PDF拆分工具 ${{ github.ref_name }}
+        body: |
+          ## 🎉 PDF拆分工具 ${{ github.ref_name }}
+          
+          ### 功能特点
+          - ✅ 按页数拆分PDF
+          - ✅ 按页面范围拆分PDF
+          - ✅ 拆分为单页PDF
+          - ✅ 图形化界面，操作简单
+          - ✅ 单个exe文件，无需安装
+          
+          ### 使用方法
+          1. 下载 `PDF拆分工具.exe`
+          2. 双击运行
+          3. 选择PDF文件和拆分方式
+          4. 点击"开始拆分"
+          
+          ### 系统要求
+          - Windows 10/11 (64位)
+          - 无需安装Python环境
+          
+          ---
+          **下载量统计**: ![GitHub release downloads](https://img.shields.io/github/downloads/xmaihh/CSVFilter/${{ github.ref_name }}/total)
+        draft: false
+        prerelease: false
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-multi-platform:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+        include:
+          - os: windows-latest
+            artifact_name: PDF拆分工具-Windows.exe
+            build_command: pyinstaller --onefile --windowed --name="PDF拆分工具" pdf_splitter.py
+          - os: ubuntu-latest
+            artifact_name: PDF拆分工具-Linux
+            build_command: pyinstaller --onefile --windowed --name="PDF拆分工具" pdf_splitter.py
+          - os: macos-latest
+            artifact_name: PDF拆分工具-macOS
+            build_command: pyinstaller --onefile --windowed --name="PDF拆分工具" pdf_splitter.py
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install PyPDF2 pyinstaller
+    
+    - name: Build application
+      run: ${{ matrix.build_command }}
+    
+    - name: Rename output file
+      run: |
+        if [ "${{ matrix.os }}" == "windows-latest" ]; then
+          mv "dist/PDF拆分工具.exe" "dist/${{ matrix.artifact_name }}"
+        else
+          mv "dist/PDF拆分工具" "dist/${{ matrix.artifact_name }}"
+        fi
+      shell: bash
+    
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.artifact_name }}
+        path: dist/${{ matrix.artifact_name }}
+        retention-days: 30
+
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: build-windows
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    - name: Install security tools
+      run: |
+        pip install bandit safety
+    
+    - name: Run Bandit security scan
+      run: |
+        bandit -r . -f json -o bandit-report.json || true
+        bandit -r . || true
+    
+    - name: Check dependencies for vulnerabilities
+      run: |
+        pip install PyPDF2
+        safety check --json --output safety-report.json || true
+        safety check || true
+    
+    - name: Upload security reports
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-reports
+        path: |
+          bandit-report.json
+          safety-report.json
+        retention-days: 30
