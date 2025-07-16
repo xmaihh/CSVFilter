@@ -44,7 +44,7 @@ jobs:
       shell: powershell
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: PDF拆分工具-Windows
         path: dist/PDF拆分工具.exe
@@ -126,7 +126,7 @@ jobs:
       shell: bash
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.artifact_name }}
         path: dist/${{ matrix.artifact_name }}
@@ -161,7 +161,7 @@ jobs:
         safety check || true
     
     - name: Upload security reports
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: security-reports
         path: |
